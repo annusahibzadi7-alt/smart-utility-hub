@@ -9,43 +9,22 @@ body {
 header {
     background: #1e2a38;
     padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     color: white;
 }
 
-header a {
-    color: white;
-    margin-left: 15px;
-    text-decoration: none;
-}
-
-header a:hover {
-    text-decoration: underline;
-}
-
-/* PAGE CONTAINER */
+/* CONTAINER */
 .container {
     max-width: 800px;
     margin: 60px auto;
     background: white;
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
 }
 
 /* HEADINGS */
 h1 {
     color: #007bff;
-}
-
-/* BOX STYLE */
-.box {
-    background: #f1f1f1;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 15px;
 }
 
 /* BUTTON */
@@ -55,11 +34,6 @@ button {
     border: none;
     padding: 10px 15px;
     border-radius: 8px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #0056b3;
 }
 
 /* INPUT */
