@@ -736,3 +736,81 @@ footer{
         width:100%;
     }
 }
+/* ==========================
+        TOOL PAGES
+========================== */
+
+.tool-page{
+    padding:120px 8% 80px;
+    text-align:center;
+}
+
+.tool-page h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.tool-page p{
+    margin-bottom:30px;
+    color:#555;
+}
+
+.tool-page textarea{
+    width:100%;
+    max-width:800px;
+    height:200px;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:16px;
+    outline:none;
+}
+
+.result-box{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.result-box .box{
+    background:#fff;
+    padding:30px 50px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.result-box h2{
+    font-size:32px;
+    color:#2563eb;
+}
+
+.bmi-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.bmi-box input{
+    width:300px;
+    max-width:100%;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    outline:none;
+}
+
+.bmi-box button{
+    padding:12px 30px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+.bmi-box h2{
+    margin-top:20px;
+}
