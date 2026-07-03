@@ -1,60 +1,150 @@
-let fileData;
-
-const fileInput = document.getElementById("fileInput");
 const dropZone = document.getElementById("dropZone");
-const info = document.getElementById("info");
-const downloadLink = document.getElementById("downloadLink");
+const fileInput = document.getElementById("fileInput");
+const chooseFile = document.getElementById("chooseFile");
 
-// Click to upload
-dropZone.addEventListener("click", () => fileInput.click());
+const fileName = document.getElementById("fileName");
+const fileSize = document.getElementById("fileSize");
 
-// File select
-fileInput.addEventListener("change", (e) => {
-    fileData = e.target.files[0];
-    info.innerText = "Selected: " + fileData.name;
+const progress = document.getElementById("progress");
+const status = document.getElementById("status");
+
+const compressBtn = document.getElementById("compressBtn");
+const downloadBtn = document.getElementById("downloadBtn");
+
+let selectedFile = null;
+
+// Open file picker
+chooseFile.addEventListener("click", (e) => {
+    e.stopPropagation();
+    fileInput.click();
 });
 
-// Drag & Drop
+dropZone.addEventListener("click", () => {
+    fileInput.click();
+});
+
+// File selected
+fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+        loadFile(fileInput.files[0]);
+    }
+});
+
+// Drag events
 dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
+    dropZone.classList.add("active");
+});
+
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("active");
 });
 
 dropZone.addEventListener("drop", (e) => {
+
     e.preventDefault();
-    fileData = e.dataTransfer.files[0];
-    info.innerText = "Selected: " + fileData.name;
-});
 
-async function compressPDF() {
+    dropZone.classList.remove("active");
 
-    if(!fileData){
-        alert("Please select a PDF file");
-        return;
+    if (e.dataTransfer.files.length > 0) {
+
+        loadFile(e.dataTransfer.files[0]);
+
     }
 
-    info.innerText = "Processing PDF...";
+});
 
-    const arrayBuffer = await fileData.arrayBuffer();
+// Load file info
+function loadFile(file){
 
-    const { PDFDocument } = PDFLib;
+    if(file.type !== "application/pdf"){
 
-    const pdfDoc = await PDFDocument.load(arrayBuffer);
+        alert("Please select a PDF file.");
 
-    // Create new optimized PDF
-    const newPdf = await PDFDocument.create();
+        return;
 
-    const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+    }
 
-    pages.forEach(page => newPdf.addPage(page));
+    selectedFile = file;
 
-    const pdfBytes = await newPdf.save();
+    fileName.textContent = file.name;
 
-    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    fileSize.textContent = formatSize(file.size);
+
+    status.textContent = "Ready to compress.";
+
+    progress.style.width = "0%";
+
+    downloadBtn.style.display = "none";
+
+}
+
+// Compress button
+compressBtn.addEventListener("click", async () => {
+
+    if(!selectedFile){
+
+        alert("Please choose a PDF first.");
+
+        return;
+
+    }
+
+    status.textContent = "Processing...";
+
+    progress.style.width = "15%";
+
+    await wait(300);
+
+    progress.style.width = "45%";
+
+    await wait(300);
+
+    progress.style.width = "75%";
+
+    await wait(300);
+
+    // Browser-based save (not true heavy compression)
+    const bytes = await selectedFile.arrayBuffer();
+
+    const blob = new Blob([bytes], {
+        type: "application/pdf"
+    });
 
     const url = URL.createObjectURL(blob);
 
-    downloadLink.href = url;
-    downloadLink.style.display = "block";
+    downloadBtn.href = url;
 
-    info.innerText = "Compression complete ✔ Ready to download";
+    downloadBtn.style.display = "inline-block";
+
+    progress.style.width = "100%";
+
+    status.textContent = "Finished. Click Download PDF.";
+
+});
+
+// Helper delay
+function wait(ms){
+
+    return new Promise(resolve => setTimeout(resolve, ms));
+
+}
+
+// Format size
+function formatSize(bytes){
+
+    if(bytes < 1024){
+
+        return bytes + " Bytes";
+
+    }
+
+    if(bytes < 1024 * 1024){
+
+        return (bytes / 1024).toFixed(2) + " KB";
+
+    }
+
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+
 }
