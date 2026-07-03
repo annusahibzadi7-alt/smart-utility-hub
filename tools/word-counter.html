@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Counter - ToolHub</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- HEADER (same design feel for consistency) -->
+<header>
+
+    <div class="logo">
+        <i class="fa-solid fa-toolbox"></i>
+        <span>ToolHub</span>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#">PDF Tools</a></li>
+            <li><a href="#">Image Tools</a></li>
+            <li><a href="#">Text Tools</a></li>
+            <li><a href="#">Calculators</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+
+<!-- TOOL SECTION -->
+<section class="tool-page">
+
+    <h1>Word Counter Tool</h1>
+
+    <p>Type or paste your text below to count words and characters instantly.</p>
+
+    <textarea id="textInput" placeholder="Start typing here..."></textarea>
+
+    <div class="result-box">
+
+        <div class="box">
+            <h2 id="wordCount">0</h2>
+            <p>Words</p>
+        </div>
+
+        <div class="box">
+            <h2 id="charCount">0</h2>
+            <p>Characters</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SCRIPT -->
+<script>
+const textInput = document.getElementById("textInput");
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+
+textInput.addEventListener("input", function () {
+
+    let text = this.value;
+
+    charCount.textContent = text.length;
+
+    let words = text.trim().split(/\s+/).filter(w => w !== "");
+
+    wordCount.textContent = text.trim() === "" ? 0 : words.length;
+
+});
+</script>
+
+</body>
+</html>
