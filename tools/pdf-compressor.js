@@ -1,39 +1,60 @@
-async function uploadPDF() {
+let fileData;
 
-    const fileInput = document.getElementById("fileInput");
-    const status = document.getElementById("status");
+const fileInput = document.getElementById("fileInput");
+const dropZone = document.getElementById("dropZone");
+const info = document.getElementById("info");
+const downloadLink = document.getElementById("downloadLink");
 
-    if(fileInput.files.length === 0){
-        status.innerText = "Please select a PDF file";
+// Click to upload
+dropZone.addEventListener("click", () => fileInput.click());
+
+// File select
+fileInput.addEventListener("change", (e) => {
+    fileData = e.target.files[0];
+    info.innerText = "Selected: " + fileData.name;
+});
+
+// Drag & Drop
+dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    fileData = e.dataTransfer.files[0];
+    info.innerText = "Selected: " + fileData.name;
+});
+
+async function compressPDF() {
+
+    if(!fileData){
+        alert("Please select a PDF file");
         return;
     }
 
-    let file = fileInput.files[0];
+    info.innerText = "Processing PDF...";
 
-    status.innerText = "Uploading & compressing...";
+    const arrayBuffer = await fileData.arrayBuffer();
 
-    const API_KEY = "YOUR_API_KEY_HERE";
+    const { PDFDocument } = PDFLib;
 
-    try {
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
 
-        let formData = new FormData();
-        formData.append("file", file);
+    // Create new optimized PDF
+    const newPdf = await PDFDocument.create();
 
-        let response = await fetch("https://api.cloudconvert.com/v2/import/upload", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${API_KEY}`
-            },
-            body: formData
-        });
+    const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
 
-        let data = await response.json();
+    pages.forEach(page => newPdf.addPage(page));
 
-        status.innerText = "Done (check console)";
-        console.log(data);
+    const pdfBytes = await newPdf.save();
 
-    } catch (error) {
-        status.innerText = "Error occurred";
-        console.log(error);
-    }
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+
+    const url = URL.createObjectURL(blob);
+
+    downloadLink.href = url;
+    downloadLink.style.display = "block";
+
+    info.innerText = "Compression complete ✔ Ready to download";
 }
