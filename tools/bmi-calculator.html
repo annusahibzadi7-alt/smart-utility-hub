@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI Calculator - ToolHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span>ToolHub</span>
+    </div>
+
+    <nav>
+        <a href="../index.html">Home</a>
+    </nav>
+</header>
+
+<section class="tool-page">
+
+    <h1>BMI Calculator</h1>
+    <p>Enter your weight and height to calculate BMI</p>
+
+    <div class="bmi-box">
+        <input type="number" id="weight" placeholder="Enter Weight (kg)">
+        
+        <input type="number" id="height" placeholder="Enter Height (cm)">
+
+        <button onclick="calculateBMI()">Calculate BMI</button>
+
+        <h2 id="result"></h2>
+
+    </div>
+
+</section>
+<script>
+function calculateBMI() {
+    let weight = document.getElementById("weight").value;
+    let height = document.getElementById("height").value / 100;
+
+    if (weight === "" || height === "") {
+        document.getElementById("result").innerText = "Please enter values";
+        return;
+    }
+
+    let bmi = weight / (height * height);
+
+    let status = "";
+
+    if (bmi < 18.5) {
+        status = "Underweight";
+    } else if (bmi < 24.9) {
+        status = "Normal weight";
+    } else if (bmi < 29.9) {
+        status = "Overweight";
+    } else {
+        status = "Obese";
+    }
+
+    document.getElementById("result").innerText =
+        "Your BMI is " + bmi.toFixed(2) + " (" + status + ")";
+}
+</script>
+
+</body>
+</html>
