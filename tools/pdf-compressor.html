@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF Compressor - ToolHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="pdf-compressor.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>PDF Compressor</h1>
+    <p>Compress your PDF file instantly</p>
+
+    <input type="file" id="fileInput" accept="application/pdf">
+
+    <button onclick="uploadPDF()">Compress PDF</button>
+
+    <p id="status"></p>
+
+</div>
+
+<script src="pdf-compressor.js"></script>
+</body>
+</html>
+body{
+    margin:0;
+    font-family:Poppins, sans-serif;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    text-align:center;
+    background:#1e293b;
+    padding:30px;
+    border-radius:15px;
+    width:320px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+input{
+    margin:15px 0;
+    width:100%;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#4f46e5;
+    color:white;
+    cursor:pointer;
+}
+async function uploadPDF() {
+
+    const fileInput = document.getElementById("fileInput");
+    const status = document.getElementById("status");
+
+    if(fileInput.files.length === 0){
+        status.innerText = "Please select a PDF file";
+        return;
+    }
+
+    let file = fileInput.files[0];
+
+    status.innerText = "Uploading & compressing...";
+
+    // ⚠️ Replace this with your real API key
+    const API_KEY = "YOUR_API_KEY_HERE";
+
+    try {
+
+        let formData = new FormData();
+        formData.append("file", file);
+
+        let response = await fetch("https://api.cloudconvert.com/v2/import/upload", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: formData
+        });
+
+        let data = await response.json();
+
+        status.innerText = "Processing complete. (Next step download setup needed)";
+
+        console.log(data);
+
+    } catch (error) {
+        status.innerText = "Error occurred. Check console.";
+        console.log(error);
+    }
+}
+button:hover{
+    background:#6366f1;
+}
