@@ -1,22 +1,49 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
+    padding: 0;
     background: #ffffff;
     color: #333;
 }
 
+/* Header */
 header {
     background: #1e2a38;
     color: white;
     padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+header nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+/* Container */
 .container {
     width: 80%;
     margin: auto;
     padding: 20px;
 }
 
+/* Tool Cards */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.tool-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Buttons */
 button, .tool-btn {
     background: #007bff;
     color: white;
@@ -27,8 +54,11 @@ button, .tool-btn {
     display: inline-block;
 }
 
+/* Inputs */
 input {
     padding: 10px;
     width: 90%;
     margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
