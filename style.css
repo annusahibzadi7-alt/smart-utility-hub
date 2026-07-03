@@ -1,816 +1,320 @@
-/* ==========================
-   GOOGLE FONT & RESET
-========================== */
+// =====================================
+// ToolHub V1.0 JavaScript
+// Part 1 - Basic Functionality
+// =====================================
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
 
-html{
-    scroll-behavior:smooth;
-}
+// Smooth scroll for navigation links
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#f7f9fc;
-    color:#222;
-    line-height:1.7;
-}
+document.querySelectorAll('a[href^="#"]').forEach(link => {
 
+    link.addEventListener("click", function(e) {
 
-/* ==========================
-        GLOBAL
-========================== */
+        const target = this.getAttribute("href");
 
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:auto;
-}
+        if (target === "#") return;
 
-section{
-    padding:80px 8%;
-}
+        e.preventDefault();
 
-h1,h2,h3{
-    color:#1d3557;
-}
+        document.querySelector(target).scrollIntoView({
 
-p{
-    color:#555;
-}
+            behavior: "smooth"
 
-a{
-    text-decoration:none;
-}
+        });
 
-ul{
-    list-style:none;
-}
+    });
 
-img{
-    max-width:100%;
-}
+});
 
 
-/* ==========================
-        HEADER
-========================== */
+// Header shadow while scrolling
 
-header{
+const header = document.querySelector("header");
 
-    position:sticky;
-    top:0;
+window.addEventListener("scroll", () => {
 
-    background:#ffffff;
+    if(window.scrollY > 50){
 
-    display:flex;
+        header.style.boxShadow = "0 10px 30px rgba(0,0,0,.12)";
 
-    justify-content:space-between;
+    }else{
 
-    align-items:center;
+        header.style.boxShadow = "0 5px 20px rgba(0,0,0,.08)";
 
-    padding:18px 8%;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-
-    z-index:1000;
-
-}
-
-.logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-size:28px;
-
-    font-weight:700;
-
-    color:#2563eb;
-
-}
-
-.logo i{
-
-    font-size:32px;
-
-}
-
-nav ul{
-
-    display:flex;
-
-    gap:28px;
-
-}
-
-nav ul li a{
-
-    color:#333;
-
-    font-weight:500;
-
-    transition:.3s;
-
-}
-
-nav ul li a:hover{
-
-    color:#2563eb;
-
-}
-
-
-/* ==========================
-        HERO
-========================== */
-
-.hero{
-
-    min-height:90vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    background:linear-gradient(135deg,#2563eb,#4f46e5);
-
-    color:#fff;
-
-}
-
-.hero-content{
-
-    max-width:800px;
-
-}
-
-.hero h1{
-
-    color:#fff;
-
-    font-size:56px;
-
-    margin-bottom:25px;
-
-}
-
-.hero p{
-
-    color:#eef3ff;
-
-    font-size:20px;
-
-    margin-bottom:40px;
-
-}
-
-.hero-buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-
-}
-
-.btn{
-
-    display:inline-block;
-
-    background:#ffffff;
-
-    color:#2563eb;
-
-    padding:15px 34px;
-
-    border-radius:50px;
-
-    font-weight:600;
-
-    transition:.3s;
-
-}
-
-.btn:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-
-}
-
-.btn-outline{
-
-    background:transparent;
-
-    border:2px solid #fff;
-
-    color:#fff;
-
-}
-
-.btn-outline:hover{
-
-    background:#fff;
-
-    color:#2563eb;
-
-}
-/* ==========================
-      SEARCH SECTION
-========================== */
-
-.search-section{
-
-    background:#ffffff;
-
-    text-align:center;
-
-}
-
-.search-section h2{
-
-    font-size:38px;
-
-    margin-bottom:15px;
-
-}
-
-.search-section p{
-
-    margin-bottom:35px;
-
-}
-
-.search-box{
-
-    max-width:750px;
-
-    margin:auto;
-
-    display:flex;
-
-    background:#fff;
-
-    border-radius:60px;
-
-    overflow:hidden;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.10);
-
-}
-
-.search-box input{
-
-    flex:1;
-
-    border:none;
-
-    outline:none;
-
-    padding:20px;
-
-    font-size:17px;
-
-}
-
-.search-box button{
-
-    border:none;
-
-    background:#2563eb;
-
-    color:#fff;
-
-    padding:20px 35px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-.search-box button:hover{
-
-    background:#1d4ed8;
-
-}
-
-
-/* ==========================
-     SECTION TITLE
-========================== */
-
-.section-title{
-
-    text-align:center;
-
-    margin-bottom:60px;
-
-}
-
-.section-title h2{
-
-    font-size:40px;
-
-    margin-bottom:15px;
-
-}
-
-.section-title p{
-
-    max-width:700px;
-
-    margin:auto;
-
-}
-
-
-/* ==========================
-      CATEGORY GRID
-========================== */
-
-.category-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-    gap:30px;
-
-}
-
-.category-card{
-
-    background:#fff;
-
-    padding:35px;
-
-    border-radius:18px;
-
-    text-align:center;
-
-    transition:.35s;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-
-}
-
-.category-card:hover{
-
-    transform:translateY(-10px);
-
-    box-shadow:0 20px 45px rgba(37,99,235,.20);
-
-}
-
-.category-card i{
-
-    font-size:48px;
-
-    color:#2563eb;
-
-    margin-bottom:20px;
-
-}
-
-.category-card h3{
-
-    margin-bottom:15px;
-
-}
-
-
-/* ==========================
-      FEATURED TOOLS
-========================== */
-
-.tool-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-    gap:30px;
-
-}
-
-.tool-card{
-
-    background:#fff;
-
-    border-radius:18px;
-
-    padding:35px;
-
-    text-align:center;
-
-    transition:.35s;
-
-    box-shadow:0 12px 30px rgba(0,0,0,.08);
-
-}
-
-.tool-card:hover{
-
-    transform:translateY(-10px);
-
-    box-shadow:0 20px 45px rgba(37,99,235,.18);
-
-}
-
-.tool-card i{
-
-    font-size:50px;
-
-    color:#2563eb;
-
-    margin-bottom:20px;
-
-}
-
-.tool-card h3{
-
-    margin-bottom:15px;
-
-}
-
-.tool-card p{
-
-    margin-bottom:25px;
-
-}
-
-.tool-btn{
-
-    display:inline-block;
-
-    background:#2563eb;
-
-    color:#fff;
-
-    padding:12px 28px;
-
-    border-radius:40px;
-
-    transition:.3s;
-
-}
-
-.tool-btn:hover{
-
-    background:#1d4ed8;
-
-}
-/* ==========================
-      WHY CHOOSE US
-========================== */
-
-.features-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
-}
-
-.feature-box{
-    background:#fff;
-    padding:35px;
-    text-align:center;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.feature-box:hover{
-    transform:translateY(-10px);
-    box-shadow:0 20px 40px rgba(37,99,235,.18);
-}
-
-.feature-box i{
-    font-size:48px;
-    color:#2563eb;
-    margin-bottom:20px;
-}
-
-.feature-box h3{
-    margin-bottom:15px;
-}
-
-
-/* ==========================
-          STATS
-========================== */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:25px;
-    background:#2563eb;
-    color:#fff;
-    text-align:center;
-}
-
-.stat-box h2{
-    color:#fff;
-    font-size:42px;
-    margin-bottom:10px;
-}
-
-.stat-box p{
-    color:#f1f5f9;
-}
-
-
-/* ==========================
-            CTA
-========================== */
-
-.cta{
-    text-align:center;
-    background:#eef4ff;
-}
-
-.cta h2{
-    font-size:42px;
-    margin-bottom:20px;
-}
-
-.cta p{
-    max-width:700px;
-    margin:0 auto 35px;
-}
-
-
-/* ==========================
-        NEWSLETTER
-========================== */
-
-.newsletter{
-    background:#1d3557;
-    color:#fff;
-    text-align:center;
-}
-
-.newsletter h2{
-    color:#fff;
-    margin-bottom:20px;
-    font-size:38px;
-}
-
-.newsletter p{
-    color:#dbeafe;
-    margin-bottom:30px;
-}
-
-.newsletter-form{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.newsletter-form input{
-    width:350px;
-    max-width:100%;
-    padding:16px;
-    border:none;
-    border-radius:50px;
-    outline:none;
-}
-
-.newsletter-form button{
-    padding:16px 30px;
-    border:none;
-    border-radius:50px;
-    background:#2563eb;
-    color:#fff;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.newsletter-form button:hover{
-    background:#3b82f6;
-}
-
-
-/* ==========================
-          FOOTER
-========================== */
-
-footer{
-    background:#0f172a;
-    color:#fff;
-}
-
-.footer-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:40px;
-    padding:70px 8%;
-}
-
-.footer-column h3{
-    color:#fff;
-    margin-bottom:20px;
-}
-
-.footer-column p{
-    color:#cbd5e1;
-}
-
-.footer-column ul li{
-    margin-bottom:12px;
-}
-
-.footer-column ul li a{
-    color:#cbd5e1;
-    transition:.3s;
-}
-
-.footer-column ul li a:hover{
-    color:#fff;
-}
-
-.social-icons{
-    display:flex;
-    gap:15px;
-    margin-top:20px;
-}
-
-.social-icons a{
-    width:45px;
-    height:45px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#1e293b;
-    color:#fff;
-    border-radius:50%;
-    transition:.3s;
-}
-
-.social-icons a:hover{
-    background:#2563eb;
-    transform:translateY(-5px);
-}
-
-.footer-bottom{
-    border-top:1px solid rgba(255,255,255,.1);
-    text-align:center;
-    padding:25px;
-}
-
-.footer-bottom p{
-    color:#cbd5e1;
-}
-
-
-/* ==========================
-      RESPONSIVE
-========================== */
-
-@media(max-width:992px){
-
-    header{
-        flex-direction:column;
-        gap:20px;
     }
 
-    nav ul{
-        flex-wrap:wrap;
-        justify-content:center;
+});
+
+
+// Button click animation
+
+const buttons = document.querySelectorAll(".btn,.tool-btn");
+
+buttons.forEach(button=>{
+
+    button.addEventListener("click",function(){
+
+        this.style.transform="scale(.96)";
+
+        setTimeout(()=>{
+
+            this.style.transform="scale(1)";
+
+        },120);
+
+    });
+
+});
+
+
+// Newsletter Form
+
+const newsletterForm = document.querySelector(".newsletter-form");
+
+if(newsletterForm){
+
+newsletterForm.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const email=this.querySelector("input").value.trim();
+
+if(email===""){
+
+alert("Please enter your email address.");
+
+return;
+
+}
+
+alert("Thank you for subscribing!");
+
+this.reset();
+
+});
+
+}
+// =====================================
+// Part 2 - Animations + Search + UI Effects
+// =====================================
+
+
+// ==========================
+// Animated Counter
+// ==========================
+
+const counters = document.querySelectorAll(".stat-box h2");
+
+const speed = 200;
+
+function animateCounter(counter) {
+
+    const target = +counter.innerText.replace("+", "").replace("%", "");
+
+    let count = 0;
+
+    const increment = target / speed;
+
+    const updateCounter = () => {
+
+        count += increment;
+
+        if (count < target) {
+
+            counter.innerText = Math.ceil(count) + (counter.innerText.includes("%") ? "%" : "+");
+
+            requestAnimationFrame(updateCounter);
+
+        } else {
+
+            counter.innerText = target + (counter.innerText.includes("%") ? "%" : "+");
+
+        }
+
+    };
+
+    updateCounter();
+
+}
+
+
+// Run counter when section is visible
+
+const statsSection = document.querySelector(".stats");
+
+let counterStarted = false;
+
+window.addEventListener("scroll", () => {
+
+    const sectionTop = statsSection.getBoundingClientRect().top;
+
+    const screenHeight = window.innerHeight;
+
+    if (sectionTop < screenHeight && !counterStarted) {
+
+        counters.forEach(counter => animateCounter(counter));
+
+        counterStarted = true;
+
     }
 
-    .hero h1{
-        font-size:42px;
-    }
+});
 
-    .hero p{
-        font-size:18px;
-    }
+
+// ==========================
+// Search Filter (Categories)
+// ==========================
+
+const searchInput = document.querySelector(".search-box input");
+
+const categoryCards = document.querySelectorAll(".category-card");
+
+if (searchInput) {
+
+    searchInput.addEventListener("keyup", function () {
+
+        const value = this.value.toLowerCase();
+
+        categoryCards.forEach(card => {
+
+            const text = card.innerText.toLowerCase();
+
+            if (text.includes(value)) {
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
 }
 
-@media(max-width:768px){
 
-    .search-box{
-        flex-direction:column;
-        border-radius:20px;
-    }
+// ==========================
+// Scroll Reveal Animation
+// ==========================
 
-    .search-box button{
-        width:100%;
-    }
+const revealElements = document.querySelectorAll(
+    ".category-card, .tool-card, .feature-box"
+);
 
-    .hero{
-        min-height:75vh;
-    }
+const revealOnScroll = () => {
 
-    .hero h1{
-        font-size:34px;
-    }
+    revealElements.forEach(el => {
 
-    section{
-        padding:60px 6%;
-    }
+        const elementTop = el.getBoundingClientRect().top;
 
-    .newsletter-form{
-        flex-direction:column;
-        align-items:center;
-    }
+        const windowHeight = window.innerHeight;
 
-    .newsletter-form input{
-        width:100%;
-    }
-}
-/* ==========================
-        TOOL PAGES
-========================== */
+        if (elementTop < windowHeight - 100) {
 
-.tool-page{
-    padding:120px 8% 80px;
-    text-align:center;
-}
+            el.style.opacity = "1";
 
-.tool-page h1{
-    font-size:42px;
-    margin-bottom:15px;
-}
+            el.style.transform = "translateY(0)";
 
-.tool-page p{
-    margin-bottom:30px;
-    color:#555;
-}
+            el.style.transition = "0.6s ease";
 
-.tool-page textarea{
-    width:100%;
-    max-width:800px;
-    height:200px;
-    padding:20px;
-    border-radius:12px;
-    border:1px solid #ddd;
-    font-size:16px;
-    outline:none;
-}
+        } else {
 
-.result-box{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:30px;
-    flex-wrap:wrap;
-}
+            el.style.opacity = "0";
 
-.result-box .box{
-    background:#fff;
-    padding:30px 50px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-}
+            el.style.transform = "translateY(30px)";
 
-.result-box h2{
-    font-size:32px;
-    color:#2563eb;
-}
+        }
 
-.bmi-box{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:15px;
-}
+    });
 
-.bmi-box input{
-    width:300px;
-    max-width:100%;
-    padding:15px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    outline:none;
-}
+};
 
-.bmi-box button{
-    padding:12px 30px;
-    background:#2563eb;
-    color:#fff;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-}
+window.addEventListener("scroll", revealOnScroll);
 
-.bmi-box h2{
-    margin-top:20px;
-}
+// initial call
+revealOnScroll();
+// =====================================
+// Part 3 - Final Polish & Professional Setup
+// =====================================
+
+
+// ==========================
+// Active Nav Highlight (Scroll Spy)
+// ==========================
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll("nav ul li a");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop = section.offsetTop - 120;
+
+        const sectionHeight = section.clientHeight;
+
+        if (pageYOffset >= sectionTop) {
+
+            current = section.getAttribute("id");
+        }
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+
+            link.classList.add("active");
+        }
+
+    });
+
+});
+
+
+// ==========================
+// Smooth Button Ripple Effect (Optional UI polish)
+// ==========================
+
+document.querySelectorAll(".btn, .tool-btn").forEach(btn => {
+
+    btn.addEventListener("click", function (e) {
+
+        let ripple = document.createElement("span");
+
+        ripple.classList.add("ripple");
+
+        this.appendChild(ripple);
+
+        let x = e.clientX - e.target.offsetLeft;
+
+        let y = e.clientY - e.target.offsetTop;
+
+        ripple.style.left = `${x}px`;
+
+        ripple.style.top = `${y}px`;
+
+        setTimeout(() => {
+
+            ripple.remove();
+
+        }, 600);
+
+    });
+
+});
+
+
+// ==========================
+// Console Branding (Optional)
+// ==========================
+
+console.log("%c ToolHub V1.0 Loaded Successfully 🚀", 
+"color: #2563eb; font-size: 16px; font-weight: bold;");
