@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator - ToolHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../style.css">
+
+    <script src="https://kit.fontawesome.com/6f9f7f7b39.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo">
+        <i class="fa-solid fa-toolbox"></i>
+        <span>ToolHub</span>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="word-counter.html">Word Counter</a></li>
+            <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+
+<!-- CALCULATOR SECTION -->
+<section class="tool-page">
+
+    <h1>Simple Calculator</h1>
+    <p>Perform basic calculations instantly.</p>
+
+    <div class="calculator-box">
+
+        <input type="text" id="display" disabled placeholder="0">
+
+        <div class="buttons">
+                  <button onclick="clearDisplay()">C</button>
+        <button onclick="appendValue('/')">/</button>
+        <button onclick="appendValue('*')">*</button>
+        <button onclick="backspace()">⌫</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button onclick="appendValue('-')">-</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="appendValue('+')">+</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="calculate()">=</button>
+
+        <button onclick="appendValue('0')" class="zero">0</button>
+        <button onclick="appendValue('.')">.</button>
+
+    </div>
+
+</section>
+<script>
+let display = document.getElementById("display");
+
+function appendValue(value) {
+    display.value += value;
+}
+
+function clearDisplay() {
+    display.value = "";
+}
+
+function backspace() {
+    display.value = display.value.slice(0, -1);
+}
+
+function calculate() {
+    try {
+        display.value = eval(display.value);
+    } catch (e) {
+        display.value = "Error";
+    }
+}
+</script>
+
+</body>
+</html>
