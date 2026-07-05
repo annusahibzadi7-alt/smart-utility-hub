@@ -1,3 +1,5 @@
+const { PDFDocument } = PDFLib;
+
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 const chooseFile = document.getElementById("chooseFile");
@@ -13,24 +15,19 @@ const downloadBtn = document.getElementById("downloadBtn");
 
 let selectedFile = null;
 
-// Open file picker
-chooseFile.addEventListener("click", (e) => {
+chooseFile.onclick = (e) => {
     e.stopPropagation();
     fileInput.click();
-});
+};
 
-dropZone.addEventListener("click", () => {
-    fileInput.click();
-});
+dropZone.onclick = () => fileInput.click();
 
-// File selected
-fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
+fileInput.onchange = () => {
+    if (fileInput.files.length) {
         loadFile(fileInput.files[0]);
     }
-});
+};
 
-// Drag events
 dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
     dropZone.classList.add("active");
@@ -46,7 +43,7 @@ dropZone.addEventListener("drop", (e) => {
 
     dropZone.classList.remove("active");
 
-    if (e.dataTransfer.files.length > 0) {
+    if (e.dataTransfer.files.length) {
 
         loadFile(e.dataTransfer.files[0]);
 
@@ -54,12 +51,11 @@ dropZone.addEventListener("drop", (e) => {
 
 });
 
-// Load file info
 function loadFile(file){
 
     if(file.type !== "application/pdf"){
 
-        alert("Please select a PDF file.");
+        alert("Please choose a PDF.");
 
         return;
 
@@ -71,80 +67,106 @@ function loadFile(file){
 
     fileSize.textContent = formatSize(file.size);
 
-    status.textContent = "Ready to compress.";
-
     progress.style.width = "0%";
+
+    status.textContent = "Ready.";
 
     downloadBtn.style.display = "none";
 
 }
 
-// Compress button
-compressBtn.addEventListener("click", async () => {
+compressBtn.onclick = async ()=>{
 
     if(!selectedFile){
 
-        alert("Please choose a PDF first.");
+        alert("Select a PDF first.");
 
         return;
 
     }
 
-    status.textContent = "Processing...";
+    try{
 
-    progress.style.width = "15%";
+        progress.style.width="15%";
+        status.textContent="Reading PDF...";
 
-    await wait(300);
+        const bytes=await selectedFile.arrayBuffer();
 
-    progress.style.width = "45%";
+        progress.style.width="40%";
 
-    await wait(300);
+        const pdf=await PDFDocument.load(bytes);
 
-    progress.style.width = "75%";
+        progress.style.width="70%";
+        status.textContent="Optimizing PDF...";
 
-    await wait(300);
+        const newBytes=await pdf.save({
 
-    // Browser-based save (not true heavy compression)
-    const bytes = await selectedFile.arrayBuffer();
+            useObjectStreams:true,
 
-    const blob = new Blob([bytes], {
-        type: "application/pdf"
-    });
+            addDefaultPage:false,
 
-    const url = URL.createObjectURL(blob);
+            updateFieldAppearances:false
 
-    downloadBtn.href = url;
+        });
 
-    downloadBtn.style.display = "inline-block";
+        progress.style.width="90%";
 
-    progress.style.width = "100%";
+        const blob=new Blob([newBytes],{
 
-    status.textContent = "Finished. Click Download PDF.";
+            type:"application/pdf"
 
-});
+        });
 
-// Helper delay
-function wait(ms){
+        if(downloadBtn.dataset.url){
 
-    return new Promise(resolve => setTimeout(resolve, ms));
+            URL.revokeObjectURL(downloadBtn.dataset.url);
 
-}
+        }
 
-// Format size
+        const url=URL.createObjectURL(blob);
+
+        downloadBtn.dataset.url=url;
+
+        downloadBtn.href=url;
+
+        downloadBtn.download=
+
+            selectedFile.name.replace(".pdf","") +
+
+            "-compressed.pdf";
+
+        downloadBtn.style.display="inline-block";
+
+        progress.style.width="100%";
+
+        status.textContent=
+
+            `Finished. Original: ${formatSize(selectedFile.size)} | Output: ${formatSize(blob.size)}`;
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        progress.style.width="0%";
+
+        status.textContent="Unable to process PDF.";
+
+    }
+
+};
+
 function formatSize(bytes){
 
-    if(bytes < 1024){
+    if(bytes<1024)
 
-        return bytes + " Bytes";
+        return bytes+" Bytes";
 
-    }
+    if(bytes<1024*1024)
 
-    if(bytes < 1024 * 1024){
+        return (bytes/1024).toFixed(2)+" KB";
 
-        return (bytes / 1024).toFixed(2) + " KB";
-
-    }
-
-    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    return (bytes/1024/1024).toFixed(2)+" MB";
 
 }
